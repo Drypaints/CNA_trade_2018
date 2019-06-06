@@ -22,7 +22,7 @@ class GameGraph:
       - game_candles*:              [Candle]
       - game_stacks:               Float
     """
-    def __init__(self, player_names, your_bot, timebank, time_per_move, candle_interval, candle_format, candles_total, candles_given, initial_stack, transaction_fee_percent, game_candles_btc_usd, game_candles_eth_btc, game_candles_eth_usd, game_stacks, period):
+    def __init__(self, player_names, your_bot, timebank, time_per_move, candle_interval, candle_format, candles_total, candles_given, initial_stack, transaction_fee_percent, game_candles_btc_usdt, game_candles_btc_eth, game_candles_eth_usdt, game_stacks, period):
         """
         Constructor method, all data required
         """
@@ -36,9 +36,9 @@ class GameGraph:
         self.s_candles_given = candles_given
         self.s_initial_stack = initial_stack
         self.s_transaction_fee_percent = transaction_fee_percent
-        self.game_candles_eth_btc = game_candles_eth_btc
-        self.game_candles_eth_usd = game_candles_eth_usd
-        self.game_candles_btc_usd = game_candles_btc_usd
+        self.game_candles_btc_eth = game_candles_btc_eth
+        self.game_candles_eth_usdt = game_candles_eth_usdt
+        self.game_candles_btc_usdt = game_candles_btc_usdt
         self.game_stacks = game_stacks
         self.relative_evo = []
         self.std_deviation = []
@@ -64,8 +64,12 @@ class GameGraph:
             return self.s_initial_stack
         elif name == "transaction_fee_percent":
             return self.s_transaction_fee_percent
-        elif name == "game_candles":
-            return self.game_candles
+        elif name == "game_candles_btc_eth":
+            return self.game_candles_btc_eth
+        elif name == "game_candles_eth_usdt":
+            return self.game_candles_eth_usdt
+        elif name == "game_candles_btc_usdt":
+            return self.game_candles_btc_usdt
         elif name == "game_stacks":
             return self.game_stacks
         else:
@@ -92,34 +96,44 @@ class GameGraph:
             self.s_initial_stack = value
         elif name == "transaction_fee_percent":
             self.s_transaction_fee_percent = value
-        elif name == "game_candles":
-            self.game_candles = value
+        elif name == "game_candles_btc_eth":
+            self.game_candles_btc_eth = value
+        elif name == "game_candles_eth_usdt":
+            self.game_candles_eth_usdt = value
+        elif name == "game_candles_btc_usdt":
+            self.game_candles_btc_usdt = value
         elif name == "game_stacks":
             self.game_stacks = value
         else:
             utils.eprint("Error: name {} doesn't exist".format(name))
             raise IndexError
     ## and self.game_candles[-1].volume >= self.game_candles[-2].volume ## à tester
-    def is_hammer_candlestick(self):
-        if (len(self.game_candles) > 3 and self.game_candles[-2].is_red() and self.game_candles[-3].is_red() and self.game_candles[-4].is_red()
-            and self.game_candles[-1].is_green() and self.game_candles[-1].l_shadow > self.game_candles[-1].body * 2):
-            return True
-        else:
-            return False
-    ## and self.game_candles[-1].volume >= self.game_candles[-2].volume ## à tester
-    def is_shooting_star_candlestick(self):
-        if (len(self.game_candles) > 3 and self.game_candles[-2].is_green() and self.game_candles[-3].is_green() and self.game_candles[-4].is_green()
-            and self.game_candles[-1].is_red() and self.game_candles[-1].u_shadow > self.game_candles[-1].body * 2):
-            return True
-        else:
-            return False
-    ## made to detect a trend change and trigger short-sell or short buy
-    def is_doji_candlestick(self):
-        if (len(self.game_candles) >= 1
-            and self.game_candles[-1].body * 5 < self.game_candles[-1].l_shadow
-            and self.game_candles[-1].body * 5 < self.game_candles[-1].u_shadow):
-            return True
-        else:
-            return False
+    # def is_hammer_candlestick(self):
+    #     if (len(self.game_candles) > 3 and self.game_candles[-2].is_red() and self.game_candles[-3].is_red() and self.game_candles[-4].is_red()
+    #         and self.game_candles[-1].is_green() and self.game_candles[-1].l_shadow > self.game_candles[-1].body * 2):
+    #         return True
+    #     else:
+    #         return False
+    # ## and self.game_candles[-1].volume >= self.game_candles[-2].volume ## à tester
+    # def is_shooting_star_candlestick(self):
+    #     if (len(self.game_candles) > 3 and self.game_candles[-2].is_green() and self.game_candles[-3].is_green() and self.game_candles[-4].is_green()
+    #         and self.game_candles[-1].is_red() and self.game_candles[-1].u_shadow > self.game_candles[-1].body * 2):
+    #         return True
+    #     else:
+    #         return False
+    # ## made to detect a trend change and trigger short-sell or short buy
+    # def is_doji_candlestick(self):
+    #     if (len(self.game_candles) >= 1
+    #         and self.game_candles[-1].body * 5 < self.game_candles[-1].l_shadow
+    #         and self.game_candles[-1].body * 5 < self.game_candles[-1].u_shadow):
+    #         return True
+    #     else:
+    #         return False
     def add_new_chart(self, data):
-        utils.eprint(data)
+        for elt in data:
+            if (elt[:7] == "btc_eth"):
+                self["game_candles_" + elt[:7].lower()] = elt
+            else:
+                self["game_candles_" + elt[:8].lower()] = elt
+            utils.eprint("game_candles_" + elt[:7].lower())
+        utils.eprint(">>> New input :", data, '\n')
