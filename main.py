@@ -4,6 +4,7 @@ import sys
 import utils
 from game import GameGraph
 from candle import Candle
+from action import *
 
 if __name__ == "__main__":
     ## Please don't look at this shet
@@ -20,5 +21,5 @@ if __name__ == "__main__":
             update_lines = input_line[19:]
             utils.eprint(update_lines)
         elif (input_line[:6] == "action"):
-            print("pass")
+            start_action(game_obj)
     utils.eprint("settings: {},updates: {}".format(game_obj.s_player_names, game_obj.game_candles_eth_btc))
