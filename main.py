@@ -21,4 +21,4 @@ if __name__ == "__main__":
             utils.eprint(update_lines)
         elif (input_line[:6] == "action"):
             print("pass")
-    utils.eprint("settings: {},updates: {}".format(game_obj.s_player_names, game_obj.game_candles_eth_btc))
+    utils.eprint("settings: {},updates: {}".format(game_obj.s_player_names, game_obj.game_candles_btc_eth))

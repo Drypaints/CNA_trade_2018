@@ -22,7 +22,7 @@ class GameGraph:
       - game_candles*:              [Candle]
       - game_stacks:               Float
     """
-    def __init__(self, player_names, your_bot, timebank, time_per_move, candle_interval, candle_format, candles_total, candles_given, initial_stack, transaction_fee_percent, game_candles_btc_usdt, game_candles_btc_eth, game_candles_eth_usdt, game_stacks, period):
+    def __init__(self, player_names, your_bot, timebank, time_per_move, candle_interval, candle_format, candles_total, candles_given, initial_stack, transaction_fee_percent, game_candles_usdt_btc, game_candles_btc_eth, game_candles_usdt_eth, game_stacks, period):
         """
         Constructor method, all data required
         """
@@ -37,8 +37,8 @@ class GameGraph:
         self.s_initial_stack = initial_stack
         self.s_transaction_fee_percent = transaction_fee_percent
         self.game_candles_btc_eth = game_candles_btc_eth
-        self.game_candles_eth_usdt = game_candles_eth_usdt
-        self.game_candles_btc_usdt = game_candles_btc_usdt
+        self.game_candles_usdt_eth = game_candles_usdt_eth
+        self.game_candles_usdt_btc = game_candles_usdt_btc
         self.game_stacks = game_stacks
         self.relative_evo = []
         self.std_deviation = []
@@ -66,10 +66,10 @@ class GameGraph:
             return self.s_transaction_fee_percent
         elif name == "game_candles_btc_eth":
             return self.game_candles_btc_eth
-        elif name == "game_candles_eth_usdt":
-            return self.game_candles_eth_usdt
-        elif name == "game_candles_btc_usdt":
-            return self.game_candles_btc_usdt
+        elif name == "game_candles_usdt_eth":
+            return self.game_candles_usdt_eth
+        elif name == "game_candles_usdt_btc":
+            return self.game_candles_usdt_btc
         elif name == "game_stacks":
             return self.game_stacks
         else:
@@ -98,10 +98,10 @@ class GameGraph:
             self.s_transaction_fee_percent = value
         elif name == "game_candles_btc_eth":
             self.game_candles_btc_eth = value
-        elif name == "game_candles_eth_usdt":
-            self.game_candles_eth_usdt = value
-        elif name == "game_candles_btc_usdt":
-            self.game_candles_btc_usdt = value
+        elif name == "game_candles_usdt_eth":
+            self.game_candles_usdt_eth = value
+        elif name == "game_candles_usdt_btc":
+            self.game_candles_usdt_btc = value
         elif name == "game_stacks":
             self.game_stacks = value
         else:
@@ -131,9 +131,9 @@ class GameGraph:
     #         return False
     def add_new_chart(self, data):
         for elt in data:
-            if (elt[:7] == "btc_eth"):
+            if (elt[:7] == "BTC_ETH"):
                 self["game_candles_" + elt[:7].lower()] = elt
             else:
                 self["game_candles_" + elt[:8].lower()] = elt
-            utils.eprint("game_candles_" + elt[:7].lower())
+            utils.eprint("game_candles_" + elt[:8].lower())
         utils.eprint(">>> New input :", data, '\n')
