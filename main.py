@@ -4,6 +4,7 @@ import sys
 import utils
 from game import GameGraph
 from candle import Candle
+from action import *
 
 if __name__ == "__main__":
     ## Please don't look at this shet
