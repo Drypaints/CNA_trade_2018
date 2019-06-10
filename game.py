@@ -34,15 +34,18 @@ class GameGraph:
         self.s_candle_format = candle_format
         self.s_candles_total = candles_total
         self.s_candles_given = candles_given
-        self.s_initial_stack = initial_stack
-        self.s_transaction_fee_percent = transaction_fee_percent
+        self.s_initial_stack = float(initial_stack)
+        self.s_transaction_fee_percent = float(transaction_fee_percent)
         self.game_candles_btc_eth = game_candles_btc_eth
         self.game_candles_usdt_eth = game_candles_usdt_eth
         self.game_candles_usdt_btc = game_candles_usdt_btc
-        self.game_stacks = game_stacks
+        self.game_stacks = 1000
         self.relative_evo = []
         self.std_deviation = []
         self.increase_avg = []
+        self.stock_eth = float(0)
+        self.stock_btc = float(0)
+        self.stock_usd = float(0)
     def __getitem__(self, name):
         if name == "player_names":
             return self.s_player_names
@@ -93,9 +96,9 @@ class GameGraph:
         elif name == "candles_given":
             self.s_candles_given = value
         elif name == "initial_stack":
-            self.s_initial_stack = value
+            self.s_initial_stack = float(value)
         elif name == "transaction_fee_percent":
-            self.s_transaction_fee_percent = value
+            self.s_transaction_fee_percent = float(value)
         elif name == "game_candles_btc_eth":
             self.game_candles_btc_eth = value
         elif name == "game_candles_usdt_eth":
@@ -131,9 +134,10 @@ class GameGraph:
     #         return False
     def add_new_chart(self, data):
         for elt in data:
+            sp = elt[0:]
             if (elt[:7] == "BTC_ETH"):
-                self["game_candles_" + elt[:7].lower()] = elt
+                self["game_candles_" + elt[:7].lower()].append(float(sp.split(",")[5]))
             else:
-                self["game_candles_" + elt[:8].lower()] = elt
+                self["game_candles_" + elt[:8].lower()].append(float(sp.split(",")[5]))
             utils.eprint("game_candles_" + elt[:8].lower())
         utils.eprint(">>> New input :", data, '\n')
