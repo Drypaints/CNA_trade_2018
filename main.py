@@ -22,4 +22,4 @@ if __name__ == "__main__":
             utils.eprint(update_lines)
         elif (input_line[:6] == "action"):
             start_action(game_obj)
-    utils.eprint("settings: {},updates: {}".format(game_obj.s_player_names, game_obj.s_initial_stack))
+    # utils.eprint("settings: {},updates: {}".format(game_obj.s_player_names, game_obj.s_initial_stack))
