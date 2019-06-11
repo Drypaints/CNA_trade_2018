@@ -41,15 +41,15 @@ def start_action(game_obj):
         print("sell USDT_BTC {}".format(game_obj.stock_btc))
         game_obj.s_initial_stack += game_obj.stock_btc * float(BTC[-1])
         game_obj.stock_btc = 0
-    elif (BTC_avg > float(BTC[-1])):
+    elif (BTC_avg > float(BTC[-1]) and BTC_avg_50 > float(BTC[-1]) and game_obj.s_initial_stack > 0):
         print("buy USDT_BTC 0.0001")
         game_obj.stock_btc += 0.0001 * float(game_obj.s_transaction_fee_percent)
         game_obj.s_initial_stack -= 0.0001 * float(BTC[-1])
-    if (ETH_avg < float(ETH[-1]) and ETH_avg_50 < float(ETH[-1]) and game_obj.stock_eth != 0):
+    elif (ETH_avg < float(ETH[-1]) and ETH_avg_50 < float(ETH[-1]) and game_obj.stock_eth != 0):
         print("sell USDT_ETH {}".format(game_obj.stock_eth))
         game_obj.s_initial_stack += game_obj.stock_eth * float(ETH[-1])
         game_obj.stock_eth = 0
-    elif (ETH_avg > float(ETH[-1]) and ETH_avg_50 > float(ETH[-1])):
+    elif (ETH_avg > float(ETH[-1]) and ETH_avg_50 > float(ETH[-1]) and game_obj.s_initial_stack > 0):
         print("buy USDT_ETH 0.0001")
         game_obj.stock_eth += 0.0001 * float(game_obj.s_transaction_fee_percent)
         game_obj.s_initial_stack -= 0.0001 * float(ETH[-1])
@@ -57,7 +57,7 @@ def start_action(game_obj):
         print("sell BTC_ETH {}".format(game_obj.stock_usd))
         game_obj.stock_btc += game_obj.stock_usd
         game_obj.stock_usd = 0
-    elif (USD_avg > float(USD[-1]) and USD_avg_50 > float(USD[-1])):
+    elif (USD_avg > float(USD[-1]) and USD_avg_50 > float(USD[-1]) and game_obj.s_initial_stack > 0):
         print("buy BTC_ETH 0.0001")
         game_obj.stock_usd += 0.0001 * float(game_obj.s_transaction_fee_percent)
         game_obj.s_initial_stack -= 0.0001 * float(USD[-1])
